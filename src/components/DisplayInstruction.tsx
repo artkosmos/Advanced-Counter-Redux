@@ -1,45 +1,44 @@
 import style from "./DisplayInstruction.module.css";
 import {Input} from "./Input";
+import {useDispatch, useSelector} from "react-redux";
+import {StateType} from "../reduxStore/store";
+import {changeMaxValueAC, changeMinValueAC, InitialStateType} from "../reducers/counter-reducer";
+
+export const DisplayInstruction = () => {
+
+  const dispatch = useDispatch()
+
+  const state = useSelector<StateType, InitialStateType>(state => state.counterData)
+  console.log(state)
+
+  const setMaxValue = (value: number) => {
+    dispatch(changeMaxValueAC(value))
+  }
+
+  const setMinValue = (value: number) => {
+    dispatch(changeMinValueAC(value))
+  }
+
+  const inputErrorCondition =
+    state.values.maxValue === state.values.minValue
+    || state.values.minValue > state.values.maxValue
+    || state.values.maxValue < 0
+    || state.values.minValue < 0
 
 
-type DisplayInstructionPropsType = {
-  maxValue: number
-  minValue: number
-  setMinValue: (value: number) => void
-  setMaxValue: (value: number) => void
-  maxInputError: boolean
-  minInputError: boolean
-  setCondition: (value: boolean) => void
-}
-
-export const DisplayInstruction = ({
-                                     maxValue,
-                                     minValue,
-                                     setMinValue,
-                                     setMaxValue,
-                                     setCondition,
-                                     maxInputError,
-                                     minInputError
-                                   }: DisplayInstructionPropsType) => {
   return (
     <div>
       <div className={style.instruction}>
         <div className={style.inputWrapper}>
           <Input
             callBack={setMaxValue}
-            value={maxValue}
-            type={'number'}
-            spanValue={'max value'}
-            inputError={maxInputError}
-            setCondition={setCondition}
+            value={state.values.maxValue}
+            inputError={inputErrorCondition}
           />
           <Input
             callBack={setMinValue}
-            value={minValue}
-            type={'number'}
-            spanValue={'start value'}
-            inputError={minInputError}
-            setCondition={setCondition}
+            value={state.values.minValue}
+            inputError={inputErrorCondition}
           />
         </div>
       </div>

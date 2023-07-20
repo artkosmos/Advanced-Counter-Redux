@@ -1,6 +1,5 @@
 import React from "react";
 import style from './Button.module.css'
-import {useDispatch} from "react-redux";
 
 type ButtonPropsType = {
   using?: string
@@ -10,8 +9,6 @@ type ButtonPropsType = {
 }
 
 export const Button = ({using, children, disabled, callBack}: ButtonPropsType) => {
-
-  const dispatch = useDispatch()
 
   const onClickHandler = () => {
     callBack()

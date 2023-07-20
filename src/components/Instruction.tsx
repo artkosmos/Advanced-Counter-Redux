@@ -1,50 +1,39 @@
 import style from "./Instruction.module.css";
 import {Button} from "./Button";
 import {DisplayInstruction} from "./DisplayInstruction";
+import {useDispatch, useSelector} from "react-redux";
+import {StateType} from "../reduxStore/store";
+import {changeStatusAC, InitialStateType, resetCounterValueAC} from "../reducers/counter-reducer";
 
-type InstructionPropsType = {
-  minValue: number
-  maxValue: number
-  setMinValue: (value: number) => void
-  setMaxValue: (value: number) => void
-  maxInputError: boolean
-  minInputError: boolean
-  condition: boolean
-  setCondition: (value: boolean) => void
-  instruction: () => void
-}
 
-export const Instruction = ({
-                              maxValue,
-                              minValue,
-                              setMaxValue,
-                              setMinValue,
-                              maxInputError,
-                              minInputError,
-                              condition,
-                              setCondition,
-                              instruction
-                            }: InstructionPropsType) => {
+export const Instruction = () => {
 
+  const dispatch = useDispatch()
+
+  const state = useSelector<StateType, InitialStateType>(state => state.counterData)
+
+  const setInstruction = () => {
+    dispatch(resetCounterValueAC(state.values.minValue))
+    dispatch(changeStatusAC(false))
+  }
+
+  const disabledCondition =
+    state.values.maxValue === state.values.minValue
+    || state.values.minValue > state.values.maxValue
+    || state.values.maxValue < 0
+    || state.values.minValue < 0
+    || !state.status
 
   return (
     <div>
       <div className={style.instruction}>
         <div className={style.contentWrapper}>
-          <DisplayInstruction
-            maxValue={maxValue}
-            minValue={minValue}
-            setMaxValue={setMaxValue}
-            setMinValue={setMinValue}
-            maxInputError={maxInputError}
-            minInputError={minInputError}
-            setCondition={setCondition}
-          />
+          <DisplayInstruction/>
           <div className={style.buttonsArea}>
             <Button
               using={'instruction'}
-              callBack={instruction}
-              disabled={minInputError || maxInputError || !condition}
+              callBack={setInstruction}
+              disabled={disabledCondition}
             >SET
             </Button>
           </div>
