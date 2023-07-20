@@ -1,50 +1,41 @@
 import React from 'react';
 import style from "./Counter.module.css";
 import {Button} from "./Button";
-import {DisplayCounter} from "./Display";
+import {DisplayCounter} from "./DisplayCounter";
+import {useDispatch, useSelector} from "react-redux";
+import {StateType} from "../reduxStore/store";
+import {incrementCounterValueAC, resetCounterValueAC} from "../reducers/counter-reducer";
 
-type CounterPropsType = {
-  currentValue: number
-  increment: () => void
-  reset: () => void
-  maxInputError: boolean
-  minInputError: boolean
-  condition: boolean
-  minValue: number
-  maxValue: number
-}
 
-export const Counter = ({
-                          increment,
-                          reset,
-                          currentValue,
-                          maxInputError,
-                          minInputError,
-                          condition,
-                          minValue,
-                          maxValue
-                        }: CounterPropsType) => {
+export const Counter = () => {
+  const selector = (state: StateType) => state.counterData
+  const dispatch = useDispatch()
+
+  const state = useSelector(selector)
+
+  const increment = () => {
+    dispatch(incrementCounterValueAC())
+  }
+
+  const reset = () => {
+    dispatch(resetCounterValueAC(state.values.minValue))
+  }
+
   return (
     <div className={style.counter}>
       <div className={style.contentWrapper}>
-        <DisplayCounter
-          counter={currentValue}
-          maxInputError={maxInputError}
-          minInputError={minInputError}
-          condition={condition}
-          maxValue={maxValue}
-        />
+        <DisplayCounter/>
         <div className={style.buttonsArea}>
           <Button
             using={'counter'}
+            disabled={state.counter === state.values.maxValue || state.status}
             callBack={increment}
-            disabled={currentValue === maxValue || condition}
           >ADD
           </Button>
           <Button
             using={'counter'}
+            disabled={state.counter === state.values.minValue || state.status}
             callBack={reset}
-            disabled={currentValue === minValue || condition}
           >RESET
           </Button>
         </div>

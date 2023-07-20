@@ -5,7 +5,8 @@ export type ActionType =
   | changeMaxErrorACType
   | changeMaxValueACType
   | changeMinValueACType
-  | changeCounterValueACType
+  | incrementCounterValueACType
+  | resetCounterValueACType
 
 const initialState = {
   counter: 0,
@@ -32,7 +33,9 @@ export const counterReducer = (state = initialState, action: ActionType): Initia
       return {...state, values: {...state.values, maxValue: action.payload.value}}
     case "CHANGE-MIN-INPUT-VALUE":
       return {...state, values: {...state.values, minValue: action.payload.value}}
-    case "CHANGE-COUNTER-VALUE":
+    case "INCREMENT-COUNTER-VALUE":
+      return {...state, counter: state.counter + 1}
+    case "RESET-COUNTER-VALUE":
       return {...state, counter: action.payload.value}
     default:
       return state
@@ -89,10 +92,18 @@ export const changeMaxValueAC = (value: number) => {
   } as const
 }
 
-type changeCounterValueACType = ReturnType<typeof changeCounterValueAC>
-export const changeCounterValueAC = (value: number) => {
+type incrementCounterValueACType = ReturnType<typeof incrementCounterValueAC>
+export const incrementCounterValueAC = () => {
   return {
-    type: 'CHANGE-COUNTER-VALUE',
+    type: 'INCREMENT-COUNTER-VALUE',
+    payload: {}
+  } as const
+}
+
+type resetCounterValueACType = ReturnType<typeof resetCounterValueAC>
+export const resetCounterValueAC = (value: number) => {
+  return {
+    type: 'RESET-COUNTER-VALUE',
     payload: {
       value
     }

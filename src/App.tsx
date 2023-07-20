@@ -29,33 +29,15 @@ function App() {
     }
   }, [minValue, maxValue])
 
-  const increment = () => {
-    setCounter(counter + 1)
-  }
-
-  const reset = () => {
-    setCounter(minValue)
-  }
 
   const installInstruction = () => {
-    saveToLocalStorage('maxValue', maxValue)
-    saveToLocalStorage('minValue', minValue)
     setCounter(minValue)
     setCondition(false)
   }
 
   return (
     <div className={s.mainContentWrapper}>
-      <Counter
-        increment={increment}
-        reset={reset}
-        currentValue={counter}
-        maxInputError={maxInputError}
-        minInputError={minInputError}
-        condition={condition}
-        minValue={minValue}
-        maxValue={maxValue}
-      />
+      <Counter/>
       <Instruction
         minValue={minValue}
         setMinValue={setMinValue}

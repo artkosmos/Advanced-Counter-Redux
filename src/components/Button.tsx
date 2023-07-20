@@ -1,19 +1,17 @@
 import React from "react";
 import style from './Button.module.css'
+import {useDispatch} from "react-redux";
 
 type ButtonPropsType = {
-  children: React.ReactNode
-  callBack: () => void
-  disabled?: boolean
   using?: string
+  children: string
+  disabled: boolean
+  callBack: () => void
 }
 
-export const Button: React.FC<ButtonPropsType> = ({
-                                                    callBack,
-                                                    children,
-                                                    disabled,
-                                                    using,
-                                                  }) => {
+export const Button = ({using, children, disabled, callBack}: ButtonPropsType) => {
+
+  const dispatch = useDispatch()
 
   const onClickHandler = () => {
     callBack()
