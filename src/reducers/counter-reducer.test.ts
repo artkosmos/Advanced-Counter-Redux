@@ -1,11 +1,10 @@
 import {
-  changeCounterValueAC,
   changeMaxErrorAC,
   changeMaxValueAC,
   changeMinErrorAC, changeMinValueAC,
   changeStatusAC,
-  counterReducer,
-  InitialStateType
+  counterReducer, incrementCounterValueAC,
+  InitialStateType, resetCounterValueAC
 } from "./counter-reducer";
 
 let state: InitialStateType
@@ -50,10 +49,16 @@ test('counter values should be changed', () => {
   expect(result2.values.maxValue).toBe(10)
 })
 
-test('counter displaying value should be changed', () => {
+test('counter displaying value should be reset to given value', () => {
 
-  const result = counterReducer(state, changeCounterValueAC(32))
+  const result = counterReducer(state, resetCounterValueAC(2))
 
-  expect(result.counter).toBe(32)
+  expect(result.counter).toBe(2)
+})
 
+test('counter displaying value should be increment by 1', () => {
+
+  const result = counterReducer(state, incrementCounterValueAC())
+
+  expect(result.counter).toBe(1)
 })
