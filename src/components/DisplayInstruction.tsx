@@ -1,45 +1,56 @@
 import style from "./DisplayInstruction.module.css";
 import {Input} from "./Input";
 import {useDispatch, useSelector} from "react-redux";
-import {StateType} from "../reduxStore/store";
-import {changeMaxValueAC, changeMinValueAC, InitialStateType} from "../reducers/counter-reducer";
+import {changeMaxValueAC, changeMinValueAC, changeStatusAC} from "../reducers/counter-reducer";
+import {maxValueSelector, minValueSelector, stateSelector} from "../selectors/selectors";
 
 export const DisplayInstruction = () => {
 
   const dispatch = useDispatch()
 
-  const state = useSelector<StateType, InitialStateType>(state => state.counterData)
+  const minValue = useSelector(minValueSelector)
+  const maxValue = useSelector(maxValueSelector)
+  const state = useSelector(stateSelector)
+
   console.log(state)
 
   const setMaxValue = (value: number) => {
+    if(value <= minValue || value < 0) {
+      dispatch(changeStatusAC('error'))
+    } else {
+      dispatch(changeStatusAC('setting'))
+    }
     dispatch(changeMaxValueAC(value))
   }
 
   const setMinValue = (value: number) => {
+    if(value >= maxValue || value < 0) {
+      dispatch(changeStatusAC('error'))
+    } else {
+      dispatch(changeStatusAC('setting'))
+    }
     dispatch(changeMinValueAC(value))
+
   }
-
-  const inputErrorCondition =
-    state.values.maxValue === state.values.minValue
-    || state.values.minValue > state.values.maxValue
-    || state.values.maxValue < 0
-    || state.values.minValue < 0
-
 
   return (
     <div>
       <div className={style.instruction}>
         <div className={style.inputWrapper}>
-          <Input
-            callBack={setMaxValue}
-            value={state.values.maxValue}
-            inputError={inputErrorCondition}
-          />
-          <Input
-            callBack={setMinValue}
-            value={state.values.minValue}
-            inputError={inputErrorCondition}
-          />
+          <div className={style.inputLine}>
+            <span>max value:</span>
+            <Input
+              callBack={setMaxValue}
+              value={maxValue}
+            />
+          </div>
+          <div className={style.inputLine}>
+            <span>min value:</span>
+            <Input
+              callBack={setMinValue}
+              value={minValue}
+            />
+          </div>
         </div>
       </div>
     </div>

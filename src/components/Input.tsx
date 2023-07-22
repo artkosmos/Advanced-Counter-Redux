@@ -1,28 +1,22 @@
-import {ChangeEvent} from 'react';
+import {ChangeEvent, ComponentPropsWithoutRef} from 'react';
 import style from './Input.module.css'
-import {useDispatch} from "react-redux";
-import {changeStatusAC} from "../reducers/counter-reducer";
+import {useSelector} from "react-redux";
+import {statusSelector} from "../selectors/selectors";
 
 type InputPropsType = {
   value: number
   callBack?: (value: number) => void
-  inputError: boolean
-}
+} & Omit<ComponentPropsWithoutRef<'input'>, 'type'>
 
-export const Input = ({
-                        value,
-                        callBack,
-                        inputError,
-                      }: InputPropsType) => {
+export const Input = ({value, callBack, ...rest}: InputPropsType) => {
 
-  const dispatch = useDispatch()
+  const status = useSelector(statusSelector)
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     callBack?.(Number(event.currentTarget.value))
-    dispatch(changeStatusAC(true))
   }
 
-  const currentClassName = inputError ? `${style.input} ${style.error}` : style.input
+  const inputClassName = status === 'error' ? `${style.input} ${style.error}` : style.input
 
   return (
     <div className={style.inputWrapper}>
@@ -31,11 +25,9 @@ export const Input = ({
           type={'number'}
           value={value}
           onChange={onChangeHandler}
-          className={currentClassName}
+          className={inputClassName}
+          {...rest}
         />
-      </div>
-      <div className={inputError ? `${style.errorMessage} ${style.active}` : style.errorMessage}>
-        invalid value!
       </div>
     </div>
   )

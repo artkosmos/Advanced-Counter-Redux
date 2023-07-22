@@ -7,15 +7,6 @@
 .input {
   width: 100px;
 }
-.errorMessage {
-  color: transparent;
-  font-size: 12px;
-  align-self: flex-end;
-}
-
-.errorMessage.active {
-  color: red;
-}
 
 .error {
   border-color: red;
@@ -26,4 +17,5 @@
 .inputWrapper {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
