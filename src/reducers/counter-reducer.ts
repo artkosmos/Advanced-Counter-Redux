@@ -1,12 +1,13 @@
 export type InitialStateType = typeof initialState
+
 export type ActionType =
   changeStatusACType
-  | changeMinErrorACType
-  | changeMaxErrorACType
   | changeMaxValueACType
   | changeMinValueACType
   | incrementCounterValueACType
   | resetCounterValueACType
+
+export type StatusType = 'setting'|'counter'|'error'
 
 const initialState = {
   counter: 0,
@@ -14,21 +15,13 @@ const initialState = {
     minValue: 0,
     maxValue: 5
   },
-  errors: {
-    minInputError: false,
-    maxInputError: false
-  },
-  status: false
+  status: 'setting' as StatusType
 }
 
 export const counterReducer = (state = initialState, action: ActionType): InitialStateType => {
   switch (action.type) {
     case "CHANGE-STATUS":
       return {...state, status: action.payload.status}
-    case "CHANGE-MAX-INPUT-ERROR":
-      return {...state, errors: {...state.errors, maxInputError: action.payload.error}}
-    case "CHANGE-MIN-INPUT-ERROR":
-      return {...state, errors: {...state.errors, minInputError: action.payload.error}}
     case "CHANGE-MAX-INPUT-VALUE":
       return {...state, values: {...state.values, maxValue: action.payload.value}}
     case "CHANGE-MIN-INPUT-VALUE":
@@ -36,38 +29,18 @@ export const counterReducer = (state = initialState, action: ActionType): Initia
     case "INCREMENT-COUNTER-VALUE":
       return {...state, counter: state.counter + 1}
     case "RESET-COUNTER-VALUE":
-      return {...state, counter: action.payload.value}
+      return {...state, counter: state.values.minValue}
     default:
       return state
   }
 }
 
 type changeStatusACType = ReturnType<typeof changeStatusAC>
-export const changeStatusAC = (status: boolean) => {
+export const changeStatusAC = (status: StatusType) => {
   return {
     type: 'CHANGE-STATUS',
     payload: {
       status
-    }
-  } as const
-}
-
-type changeMinErrorACType = ReturnType<typeof changeMinErrorAC>
-export const changeMinErrorAC = (error: boolean) => {
-  return {
-    type: 'CHANGE-MIN-INPUT-ERROR',
-    payload: {
-      error
-    }
-  } as const
-}
-
-type changeMaxErrorACType = ReturnType<typeof changeMaxErrorAC>
-export const changeMaxErrorAC = (error: boolean) => {
-  return {
-    type: 'CHANGE-MAX-INPUT-ERROR',
-    payload: {
-      error
     }
   } as const
 }
@@ -96,7 +69,6 @@ type incrementCounterValueACType = ReturnType<typeof incrementCounterValueAC>
 export const incrementCounterValueAC = () => {
   return {
     type: 'INCREMENT-COUNTER-VALUE',
-    payload: {}
   } as const
 }
 
