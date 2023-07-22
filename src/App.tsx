@@ -3,22 +3,7 @@ import {Counter} from "./components/Counter";
 import {Instruction} from "./components/Instruction";
 
 
-function App() {
-
-
-  // useEffect(() => {
-  //   if (maxValue === minValue || minValue > maxValue) {
-  //     setMaxInputError(true)
-  //     setMinInputError(true)
-  //   } else if (maxValue < 0) {
-  //     setMaxInputError(true)
-  //   } else if (minValue < 0) {
-  //     setMinInputError(true)
-  //   } else {
-  //     setMaxInputError(false)
-  //     setMinInputError(false)
-  //   }
-  // }, [minValue, maxValue])
+export function App() {
 
   return (
     <div className={s.mainContentWrapper}>
@@ -28,4 +13,3 @@ function App() {
   )
 }
 
-export default App;
