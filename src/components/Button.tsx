@@ -1,31 +1,24 @@
-import React from "react";
+import React, {ComponentPropsWithoutRef} from "react";
 import style from './Button.module.css'
 
 type ButtonPropsType = {
   using?: string
-  children: string
-  disabled: boolean
-  callBack: () => void
-}
+} & ComponentPropsWithoutRef<'button'>
 
-export const Button = ({using, children, disabled, callBack}: ButtonPropsType) => {
+export const Button = ({using, children,  ...rest}: ButtonPropsType) => {
 
-  const onClickHandler = () => {
-    callBack()
-  }
+  const buttonClassName = rest.disabled
+    ? `${style.button} ${style.disable}`
+    : using === 'counter'
+      ? `${style.button} ${style.aqua}`
+      : using === 'instruction'
+        ? `${style.button} ${style.orange}`
+        : `${style.button}`
 
   return (
     <button
-      className={disabled
-        ? `${style.button} ${style.disable}`
-        : using === 'counter'
-          ? `${style.button} ${style.aqua}`
-          : using === 'instruction'
-            ? `${style.button} ${style.orange}`
-            : `${style.button}`
-      }
-      onClick={onClickHandler}
-      disabled={disabled}
+      className={buttonClassName}
+      {...rest}
     >{children}
     </button>
   )
