@@ -1,7 +1,6 @@
 import {
-  changeMaxErrorAC,
   changeMaxValueAC,
-  changeMinErrorAC, changeMinValueAC,
+  changeMinValueAC,
   changeStatusAC,
   counterReducer, incrementCounterValueAC,
   InitialStateType, resetCounterValueAC
@@ -20,24 +19,15 @@ beforeEach(() => {
       minInputError: false,
       maxInputError: false
     },
-    status: false
+    status: 'counter'
   }
 })
 
 test('counter status should be changed', () => {
 
-  const result = counterReducer(state, changeStatusAC(true))
+  const result = counterReducer(state, changeStatusAC('error'))
 
-  expect(result.status).toBe(true)
-})
-
-test('counter errors should be shown', () => {
-
-  const result1 = counterReducer(state, changeMinErrorAC(true))
-  const result2 = counterReducer(state, changeMaxErrorAC(true))
-
-  expect(result1.errors.minInputError).toBe(true)
-  expect(result2.errors.maxInputError).toBe(true)
+  expect(result.status).toBe('error')
 })
 
 test('counter values should be changed', () => {
@@ -51,7 +41,7 @@ test('counter values should be changed', () => {
 
 test('counter displaying value should be reset to given value', () => {
 
-  const result = counterReducer(state, resetCounterValueAC(2))
+  const result = counterReducer(state, resetCounterValueAC())
 
   expect(result.counter).toBe(2)
 })

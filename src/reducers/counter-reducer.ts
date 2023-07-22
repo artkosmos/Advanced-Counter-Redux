@@ -73,11 +73,8 @@ export const incrementCounterValueAC = () => {
 }
 
 type resetCounterValueACType = ReturnType<typeof resetCounterValueAC>
-export const resetCounterValueAC = (value: number) => {
+export const resetCounterValueAC = () => {
   return {
     type: 'RESET-COUNTER-VALUE',
-    payload: {
-      value
-    }
   } as const
 }
