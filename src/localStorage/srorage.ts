@@ -1,11 +1,23 @@
-export function saveToLocalStorage<T>(key: string, state: T) {
+export function saveToLocalStorage(state: any) {
+  try {
     const stateAsString = JSON.stringify(state)
-    localStorage.setItem(key, stateAsString)
+    localStorage.setItem('preload', stateAsString)
+  }
+  catch (error) {
+    console.warn(error)
+  }
 }
 
-export function getFromLocalStorage<T>(key: string, defaultState: T) {
-    let state = defaultState
-    const stateAsString = localStorage.getItem(key)
-    if (stateAsString !== null) state = JSON.parse(stateAsString) as T
-    return state
+export function getFromLocalStorage() {
+  try {
+    const stateAsString = localStorage.getItem('preload')
+    if (stateAsString === null) {
+      return undefined
+    }
+    return JSON.parse(stateAsString)
+  }
+  catch (error) {
+    console.warn(error)
+    return undefined
+  }
 }
