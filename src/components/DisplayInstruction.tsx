@@ -2,7 +2,7 @@ import style from "./DisplayInstruction.module.css";
 import {Input} from "./Input";
 import {useDispatch, useSelector} from "react-redux";
 import {changeMaxValueAC, changeMinValueAC, changeStatusAC} from "../reducers/counter-reducer";
-import {maxValueSelector, minValueSelector, stateSelector} from "../selectors/selectors";
+import {maxValueSelector, minValueSelector} from "../selectors/selectors";
 
 export const DisplayInstruction = () => {
 
@@ -10,9 +10,6 @@ export const DisplayInstruction = () => {
 
   const minValue = useSelector(minValueSelector)
   const maxValue = useSelector(maxValueSelector)
-  const state = useSelector(stateSelector)
-
-  console.log(state)
 
   const setMaxValue = (value: number) => {
     if(value <= minValue || value < 0) {

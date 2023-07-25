@@ -3,7 +3,8 @@ import {Button} from "./Button";
 import {DisplayInstruction} from "./DisplayInstruction";
 import {useDispatch, useSelector} from "react-redux";
 import {changeStatusAC, resetCounterValueAC} from "../reducers/counter-reducer";
-import {statusSelector} from "../selectors/selectors";
+import {maxValueSelector, minValueSelector, statusSelector} from "../selectors/selectors";
+import {saveToLocalStorage} from "../localStorage/srorage";
 
 
 export const Instruction = () => {
@@ -11,10 +12,13 @@ export const Instruction = () => {
   const dispatch = useDispatch()
 
   const status = useSelector(statusSelector)
+  const minValue = useSelector(minValueSelector)
+  const maxValue = useSelector(maxValueSelector)
 
   const setInstruction = () => {
     dispatch(resetCounterValueAC())
     dispatch(changeStatusAC('counter'))
+    saveToLocalStorage({minValue: minValue, maxValue: maxValue})
   }
 
   return (
