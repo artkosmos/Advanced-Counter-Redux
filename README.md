@@ -1,6 +1,8 @@
 # Counter with settings
 #### React + Javascript + TypeScript + Redux
 
+#### Deploy link: https://artkosmos.github.io/Counter-with-settings/
+
 ![Project preview](https://github.com/artkosmos/Counter-with-settings/raw/main/public/preview.png)
 
 ### About Project
